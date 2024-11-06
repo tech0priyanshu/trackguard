@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to TrackGuard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/ScrollTrigger.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .wrapper {
+      position: relative;
+      width: 100%;
+      height: 300vh; /* Set a height to allow scrolling */
+      z-index: 1;
+    }
+
+    .content {
+      overflow-x: hidden;
+    }
+
+    .section {
+      width: 100%;
+      height: 100vh;
+    }
+
+    .section.hero {
+      background-image: url(https://files.oaiusercontent.com/file-uuo0bN0FRCBKhlwGwBjhWati?se=2024-11-06T11%3A33%3A41Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D6d59fa13-3d4a-4dac-bc33-7c41f421c2c6.webp&sig=dK2hUqKuU0rlxTqmZeUsqp5tevfKB/Cgz4tDpipEVj8%3D);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .image-container {
+      width: 100%;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      perspective: 500px;
+      overflow: hidden;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="content">
+    <section class="section hero"></section>
+    <section class="section gradient-purple"></section>
+    <section class="section gradient-blue"></section>
+  </div>
+  <div class="image-container">
+    <img src="https://assets-global.website-files.com/63ec206c5542613e2e5aa784/643312a6bc4ac122fc4e3afa_main%20home.webp" alt="image">
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", () => {
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: ".wrapper",
+          start: "top top", // start at the top of the viewport
+          end: "bottom top", // end when the bottom of the wrapper reaches the top of the viewport
+          pin: true, // pin the wrapper during the scroll
+          scrub: true, // smooth scrolling effect
+          markers: false, // Remove markers
+        }
+      })
+      .to("img", {
+        scale: 2,
+        z: 350,
+        transformOrigin: "center center",
+        ease: "power1.inOut"
+      })
+      .to(
+        ".section.hero",
+        {
+          scale: 1.1,
+          transformOrigin: "center center",
+          ease: "power1.inOut"
+        },
+        "<"
+      );
+  });
+</script>
+
+</body>
+</html>
