@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackGuard Signup</title>
+  <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+  <div class="signup-container">
+    <h1>Track Guard</h1>
+    <p class="tagline">"Ensuring Safety, Enhancing Efficiency."</p>
+    <p>Create a new account to get started.</p>
+
+    <form>
+      <label for="full-name">Full Name</label>
+      <input type="text" id="full-name" placeholder="John Doe" required>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" placeholder="example@gmail.com" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="***************" required>
+
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" placeholder="***************" required>
+
+      <button type="submit" class="signup-btn" onclick="window.location.href='home.html'">Sign Up</button>
+      <p>Already have an account? <a href="login.html">Login here</a></p>
+    </form>
+  </div>
+</body>
+</html>
