@@ -16,7 +16,7 @@
       margin: 0;
       background: linear-gradient(120deg, #a1c4fd, #c2e9fb);
     }
-    
+
     h1 {
       color: #333;
       margin-bottom: 20px;
@@ -26,6 +26,7 @@
     .container {
       display: flex;
       gap: 20px;
+      margin-bottom: 20px;
     }
 
     /* Popup Card Styles */
@@ -67,6 +68,62 @@
     .button:hover {
       background-color: #0056b3;
     }
+
+    /* Alerts Panel Styles */
+    .alerts-panel {
+      width: 320px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      font-size: 14px;
+      color: #333;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .alerts-panel h2 {
+      color: #ff4d4d;
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .alert-item {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .alert-item p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .alert-item strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .mark-viewed {
+      text-align: right;
+      margin-top: 10px;
+    }
+
+    .mark-viewed button {
+      padding: 8px 12px;
+      background-color: #ff4d4d;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .mark-viewed button:hover {
+      background-color: #cc0000;
+    }
   </style>
 </head>
 <body>
@@ -80,17 +137,91 @@
     <div class="popup-card">
       <h2>Alerts</h2>
       <p><strong>Security Alert:</strong> We’ve detected an unusual login attempt from an unknown device. Please verify your recent activities to secure your account.</p>
-      <button class="button" onclick="alert('No New Alerts!')">View More</button>
+      <button class="button" onclick="showAlertsPanel()">View More</button>
     </div>
     
     <!-- Notification Card -->
     <div class="popup-card">
       <h2>Notifications</h2>
       <p><strong>New Features:</strong> TrackGuard has been updated! Discover new enhancements and improved functionalities to optimize your security management.</p>
-      <button class="button" onclick="alert('Checked Notifications!')">View More</button>
+      <button class="button" onclick="showNotificationPanel()">View More</button>
     </div>
     
   </div>
+
+  <!-- Alerts Panel -->
+  <div class="alerts-panel" id="alertsPanel" style="display: none;">
+    <h2>All Alerts</h2>
+    
+    <!-- Sample Alert Items -->
+    <div class="alert-item">
+      <strong>Security Alert:</strong>
+      <p>We detected a login attempt from a new device in New York, USA. If this wasn't you, please change your password immediately.</p>
+    </div>
+    <div class="alert-item">
+      <strong>Password Change Alert:</strong>
+      <p>Your password was recently changed. If you did not initiate this change, contact support immediately.</p>
+    </div>
+    <div class="alert-item">
+      <strong>Unusual Activity:</strong>
+      <p>Multiple failed login attempts were detected on your account. Verify if these attempts were yours.</p>
+    </div>
+    <div class="alert-item">
+      <strong>Data Backup Alert:</strong>
+      <p>Your scheduled data backup was unsuccessful. Try again or contact support for help.</p>
+    </div>
+
+    <!-- Mark All as Viewed Button -->
+    <div class="mark-viewed">
+      <button onclick="markAllAsViewed()">Mark All as Viewed</button>
+    </div>
+  </div>
+
+  <!-- Notification Panel -->
+  <div class="notification-panel" id="notificationPanel" style="display: none;">
+    <h2>All Notifications</h2>
+    
+    <!-- Sample Notification Items -->
+    <div class="notification-item">
+      <strong>Security Alert:</strong>
+      <p>Unusual login attempt detected from a new device. Verify if this was you.</p>
+    </div>
+    <div class="notification-item">
+      <strong>System Update:</strong>
+      <p>TrackGuard's system maintenance scheduled for midnight. Expect temporary downtime.</p>
+    </div>
+    <div class="notification-item">
+      <strong>Feature Update:</strong>
+      <p>New dashboard layout introduced. Check out the improved design!</p>
+    </div>
+    <div class="notification-item">
+      <strong>Backup Alert:</strong>
+      <p>Your recent backup was successful. You can access it in your account settings.</p>
+    </div>
+
+    <!-- Mark All as Read Button -->
+    <div class="mark-read">
+      <button onclick="markAllAsRead()">Mark All as Read</button>
+    </div>
+  </div>
+
+  <script>
+    function showAlertsPanel() {
+      document.getElementById('alertsPanel').style.display = 'block';
+    }
+
+    function showNotificationPanel() {
+      document.getElementById('notificationPanel').style.display = 'block';
+    }
+
+    function markAllAsViewed() {
+      alert('All alerts marked as viewed!');
+    }
+
+    function markAllAsRead() {
+      alert('All notifications marked as read!');
+    }
+  </script>
 
 </body>
 </html>
