@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackGuard - Alerts and Notifications</title>
+  <style>
+    /* Basic Styles */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(120deg, #a1c4fd, #c2e9fb);
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Card Container */
+    .container {
+      display: flex;
+      gap: 20px;
+    }
+
+    /* Popup Card Styles */
+    .popup-card {
+      width: 300px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .popup-card h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      color: #007bff;
+    }
+    
+    .popup-card p {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    /* Button Styles */
+    .button {
+      padding: 10px 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  
+  <h1>TrackGuard - Alerts & Notifications</h1>
+  
+  <!-- Container for Cards -->
+  <div class="container">
+    
+    <!-- Alert Card -->
+    <div class="popup-card">
+      <h2>Alerts</h2>
+      <p><strong>Security Alert:</strong> We’ve detected an unusual login attempt from an unknown device. Please verify your recent activities to secure your account.</p>
+      <button class="button" onclick="alert('No New Alerts!')">View More</button>
+    </div>
+    
+    <!-- Notification Card -->
+    <div class="popup-card">
+      <h2>Notifications</h2>
+      <p><strong>New Features:</strong> TrackGuard has been updated! Discover new enhancements and improved functionalities to optimize your security management.</p>
+      <button class="button" onclick="alert('Checked Notifications!')">View More</button>
+    </div>
+    
+  </div>
+
+</body>
+</html>
