@@ -15,32 +15,27 @@
             background-color: #f4f6f8;
             color: #333;
         }
-
         h1 {
             text-align: center;
             margin-top: 20px;
             color: #333;
             font-size: 36px;
         }
-
         /* Navigation Bar */
         nav {
             background-color: #2c3e50;
             padding: 15px 0;
             text-align: center;
         }
-
         nav a {
             color: #ecf0f1;
             margin: 0 20px;
             font-size: 18px;
             text-decoration: none;
         }
-
         nav a:hover {
             color: #3498db;
         }
-
         /* Dashboard Container */
         #dashboard {
             display: grid;
@@ -49,7 +44,6 @@
             padding: 20px;
             padding-bottom: 100px; /* Add bottom padding to prevent overlap */
         }
-
         .card {
             background-color: #fff;
             border-radius: 8px;
@@ -58,26 +52,21 @@
             text-align: center;
             transition: transform 0.3s ease;
         }
-
         .card:hover {
             transform: scale(1.05);
         }
-
         .active {
             display: block;
         }
-
         .card h3 {
             font-size: 24px;
             margin-bottom: 10px;
         }
-
         #map {
             height: 300px;
             width: 100%;
             border-radius: 8px;
         }
-
         /* Footer */
         footer {
             background-color: #2c3e50;
@@ -85,15 +74,13 @@
             padding: 20px;
             text-align: center;
             width: 100%;
-            position: relative; /* Change from fixed to relative */
+            position: relative;
             bottom: 0;
         }
-
         footer a {
             color: #3498db;
             text-decoration: none;
         }
-
         footer a:hover {
             text-decoration: underline;
         }
@@ -150,169 +137,73 @@
     </footer>
 
     <script>
-        let currentCardIndex = 0;
+        function getRandomData(arrayLength, range) {
+            return Array.from({ length: arrayLength }, () => Math.random() * range);
+        }
 
-        // ECG Data (mV)
-        const ecgData = {
-            time: Array.from({length: 100}, (_, i) => new Date(Date.now() + i * 1000)),
-            values: Array.from({length: 100}, (_, i) => (i % 10 === 0 ? Math.abs(Math.sin(i * 0.1)) * 0.5 : 0)),
-        };
-
-        // Vehicle Activity Data (for Activity Levels Chart)
-        const activityData = {
-            categories: ['Idle', 'In Motion', 'Stopped', 'Off Route'],
-            values: [25, 50, 15, 10]  // Percentage of time spent in each state
-        };
-
-        // Delivery Timings Data (Pie Chart)
-        const deliveryTimingsData = {
-            labels: ['On-time Delivery', 'Delayed Delivery', 'Early Delivery', 'Canceled Delivery'],
-            values: [50, 30, 10, 10],  // Percentages for each category
-        };
-
-        // Device Status Data (for Bar Graph)
-        const deviceStatusData = {
-            status: ['Active', 'Inactive', 'Partially Active'],
-            counts: [45, 30, 25]  // Number of devices in each state
-        };
-
-        // Function to Update Graphs
+        // Function to Update Graphs with Random Data
         function updateGraphs() {
             // ECG Graph (Line Chart)
             const ecgTrace = {
-                x: ecgData.time,
-                y: ecgData.values,
+                x: Array.from({ length: 100 }, (_, i) => new Date(Date.now() + i * 1000)),
+                y: getRandomData(100, 1), // Generate random ECG values
                 mode: 'lines',
                 name: 'ECG (mV)',
-                line: {color: 'rgb(255, 99, 132)'}
+                line: { color: 'rgb(255, 99, 132)' }
             };
+            const layoutECG = { title: 'ECG (Electrocardiogram)' };
+            Plotly.newPlot('ecg-graph', [ecgTrace], layoutECG);
 
-            const layoutECG = {
-                title: 'ECG (Electrocardiogram)',
-                xaxis: {
-                    title: 'Time',
-                    type: 'date',
-                    showgrid: true,
-                    zeroline: true
-                },
-                yaxis: {
-                    title: 'ECG (mV)',
-                    range: [0, 1],
-                    showgrid: true,
-                    zeroline: true
-                },
-            };
-
-            // Activity Levels Graph (Bar Chart)
+            // Activity Levels (Bar Chart)
             const activityTrace = {
-                x: activityData.categories,
-                y: activityData.values,
+                x: ['Idle', 'In Motion', 'Stopped', 'Off Route'],
+                y: getRandomData(4, 100), // Random values for activity levels
                 type: 'bar',
-                marker: {color: 'rgb(54, 162, 235)'}
+                marker: { color: 'rgb(54, 162, 235)' }
             };
-
-            const layoutActivity = {
-                title: 'Vehicle Activity Levels',
-                xaxis: {
-                    title: 'Activity Type',
-                    showgrid: true,
-                    zeroline: true
-                },
-                yaxis: {
-                    title: 'Percentage (%)',
-                    range: [0, 100],
-                    showgrid: true,
-                    zeroline: true
-                },
-            };
+            const layoutActivity = { title: 'Vehicle Activity Levels' };
+            Plotly.newPlot('activity-chart', [activityTrace], layoutActivity);
 
             // Delivery Timings Distribution (Pie Chart)
             const pieTrace = {
-                labels: deliveryTimingsData.labels,
-                values: deliveryTimingsData.values,
+                labels: ['On-time Delivery', 'Delayed Delivery', 'Early Delivery', 'Canceled Delivery'],
+                values: getRandomData(4, 100), // Random values for delivery timings
                 type: 'pie'
             };
-
-            const layoutPie = {
-                title: 'Delivery Timings Distribution',
-            };
-
-            // Device Status Bar Graph
-            const deviceStatusTrace = {
-                x: deviceStatusData.status,
-                y: deviceStatusData.counts,
-                type: 'bar',
-                marker: {color: 'rgb(75, 192, 192)'}
-            };
-
-            const layoutDeviceStatus = {
-                title: 'Device Status Distribution',
-                xaxis: {
-                    title: 'Device Status',
-                    showgrid: true,
-                    zeroline: true
-                },
-                yaxis: {
-                    title: 'Number of Devices',
-                    showgrid: true,
-                    zeroline: true
-                },
-            };
-
-            // Plot the ECG Graph
-            Plotly.newPlot('ecg-graph', [ecgTrace], layoutECG);
-
-            // Plot the Activity Levels Graph
-            Plotly.newPlot('activity-chart', [activityTrace], layoutActivity);
-
-            // Plot the Pie Chart
+            const layoutPie = { title: 'Delivery Timings Distribution' };
             Plotly.newPlot('pie-chart', [pieTrace], layoutPie);
 
-            // Plot the Device Status Graph
+            // Device Status (Bar Chart)
+            const deviceStatusTrace = {
+                x: ['Active', 'Inactive', 'Partially Active'],
+                y: getRandomData(3, 50), // Random values for device statuses
+                type: 'bar',
+                marker: { color: 'rgb(75, 192, 192)' }
+            };
+            const layoutDeviceStatus = { title: 'Device Status Distribution' };
             Plotly.newPlot('device-status-graph', [deviceStatusTrace], layoutDeviceStatus);
         }
 
-        // Current Location Map
-        let map, marker;
-        function updateLocationOnMap() {
-            map = L.map('map').setView([20.5937, 78.9629], 5); // Center on India
+        // Update graphs every 5 seconds
+        setInterval(updateGraphs, 5000);
 
-            // Add OpenStreetMap tile layer
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(map);
+        // Initial Map Setup with Randomized Updates
+        let map = L.map('map').setView([20.5937, 78.9629], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+        let marker = L.marker([28.6139, 77.2090]).addTo(map);
 
-            // Set initial marker position and popup
-            marker = L.marker([28.6139, 77.2090]).addTo(map);
-            marker.bindPopup('The driver is here').openPopup();
-
-            // Simulate random movement of the marker
-            setInterval(() => {
-                const lat = 20.5937 + (Math.random() - 0.5) * 10; // Random latitude
-                const lon = 78.9629 + (Math.random() - 0.5) * 10; // Random longitude
-
-                marker.setLatLng([lat, lon]);
-                map.setView([lat, lon], 5);
-                marker.getPopup().setContent("The driver is here");
-            }, 5000); // Update every 5 seconds
-        }
-
-        // Switch between active cards
-        function switchCard() {
-            const cards = ['line-chart-card', 'activity-chart-card', 'pie-chart-card', 'map-card', 'device-status-card'];
-            cards.forEach(card => document.getElementById(card).classList.remove('active'));
-            document.getElementById(cards[currentCardIndex]).classList.add('active');
-            currentCardIndex = (currentCardIndex + 1) % cards.length;
-        }
-
-        // Initialize and Update
+        // Update map marker location randomly every 5 seconds
         setInterval(() => {
-            updateGraphs();
-            switchCard();
+            const lat = 20.5937 + (Math.random() - 0.5) * 10;
+            const lon = 78.9629 + (Math.random() - 0.5) * 10;
+            marker.setLatLng([lat, lon]);
+            map.setView([lat, lon], 5);
+            marker.bindPopup("The driver is here").openPopup();
         }, 5000);
-        
-        // Initial function calls
-        updateLocationOnMap();
+
+        // Initial graph update
         updateGraphs();
     </script>
 </body>
