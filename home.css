@@ -22,6 +22,25 @@ body {
     margin: 2em 0;
 }
 
+/* Footer styling */
+.footer {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+.footer .social-links a {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 1.5em;
+    transition: color 0.3s;
+}
+
+.footer .social-links a:hover {
+    color: #4CAF50; /* or any highlight color you like */
+}
+
 .device-container {
     display: flex;
     flex-wrap: wrap;
