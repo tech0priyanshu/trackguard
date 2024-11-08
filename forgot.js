@@ -17,7 +17,7 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', functio
     formData.append('email', email);
 
     // Send a POST request to the server
-    fetch('{{ url_for('send_reset_email') }}', {
+    fetch('{{ url_for('send_reset_email')}}', {
         method: 'POST',
         body: formData
     })
