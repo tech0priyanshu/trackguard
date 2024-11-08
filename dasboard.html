@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Dashboard with Real-time Graphs</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+            font-size: 36px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #2c3e50;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        nav a {
+            color: #ecf0f1;
+            margin: 0 20px;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        /* Dashboard Container */
+        #dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .active {
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#line-chart-card">Line Chart</a>
+        <a href="#bar-chart-card">Bar Chart</a>
+        <a href="#pie-chart-card">Pie Chart</a>
+        <a href="#map-card">Live Map</a>
+        <a href="#textual-data-card">Average Value</a>
+    </nav>
+
+    <h1>Live Dashboard </h1>
+
+    <div id="dashboard">
+        <!-- Card 1: Line Chart -->
+        <div id="line-chart-card" class="card active">
+            <h3>Line Chart (Sin and Cos Waves)</h3>
+            <div id="graph1"></div>
+        </div>
+
+        <!-- Card 2: Bar Chart -->
+        <div id="bar-chart-card" class="card">
+            <h3>Bar Chart</h3>
+            <div id="graph2"></div>
+        </div>
+
+        <!-- Card 3: Pie Chart -->
+        <div id="pie-chart-card" class="card">
+            <h3>Pie Chart</h3>
+            <div id="graph3"></div>
+        </div>
+
+        <!-- Card 4: Live Location on Map -->
+        <div id="map-card" class="card">
+            <h3>Live Location on Map</h3>
+            <div id="map"></div>
+        </div>
+
+        <!-- Card 5: Textual Data (Question Answering) -->
+        <div id="textual-data-card" class="card">
+            <h3>Textual Data: Average Value</h3>
+            <p id="average-value">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Developed by <a href="https://www.yourwebsite.com" target="_blank">Your Name</a> | © 2024</p>
+    </footer>
+
+    <script>
+        let currentCardIndex = 0; // Tracks which card is active
+
+        // Simulate real-time data generation with positive values only
+        function generateData() {
+            const time = new Date();
+            const timeSeries = [];
+            const value1Series = [];
+            const value2Series = [];
+            const value3Series = [];
+            const barData = [];
+            const pieData = [0, 0, 0, 0];
+
+            for (let i = 0; i < 100; i++) {
+                timeSeries.push(new Date(time.getTime() + i * 1000));
+                const sinValue = Math.abs(Math.sin(i * 0.1) + Math.random() * 0.2); // Ensure positive values
+                const cosValue = Math.abs(Math.cos(i * 0.1) + Math.random() * 0.2); // Ensure positive values
+                const randomValue = Math.abs(Math.random() * 2); // Ensure positive values
+                
+                value1Series.push(sinValue);
+                value2Series.push(cosValue);
+                value3Series.push(randomValue);
+                
+                // Bar chart data (positive random values)
+                barData.push(Math.abs(Math.random() * 10));
+                
+                // Pie chart data (positive percentage distribution)
+                pieData[i % 4] += Math.random() * 10;  // Distribute the values randomly among 4 categories
+            }
+            return {
+                time: timeSeries,
+                value1: value1Series,
+                value2: value2Series,
+                value3: value3Series,
+                barData: barData,
+                pieData: pieData
+            };
+        }
+
+        // Update the graphs with new data
+        function updateGraphs() {
+            const data = generateData();
+
+            // Line Chart: Sin and Cos Waves
+            const trace1 = {
+                x: data.time,
+                y: data.value1,
+                mode: 'lines',
+                name: 'Sin Wave',
+                line: {color: 'rgb(255, 99, 132)'}
+            };
+
+            const trace2 = {
+                x: data.time,
+                y: data.value2,
+                mode: 'lines',
+                name: 'Cos Wave',
+                line: {color: 'rgb(54, 162, 235)'}
+            };
+
+            const layoutLine = {
+                title: 'Line Chart: Sin & Cos Waves',
+                xaxis: {
+                    title: 'Time',
+                    type: 'date',
+                    showgrid: true,
+                    zeroline: true
+                },
+                yaxis: {
+                    title: 'Amplitude',
+                    range: [0, Math.max(...data.value1, ...data.value2) + 1],
+                    showgrid: true,
+                    zeroline: true
+                },
+            };
+
+            // Bar Chart: Random Data
+            const barTrace = {
+                x: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+                y: data.barData,
+                type: 'bar',
+                marker: {color: 'rgb(75, 192, 192)'}
+            };
+
+            const layoutBar = {
+                title: 'Bar Chart (Random Positive Data)',
+                xaxis: {
+                    title: 'Categories',
+                    showgrid: true,
+                    zeroline: true
+                },
+                yaxis: {
+                    title: 'Values',
+                    range: [0, Math.max(...data.barData) + 2],
+                    showgrid: true,
+                    zeroline: true
+                },
+            };
+
+            // Pie Chart: Random Category Distribution
+            const pieTrace = {
+                labels: ['Category A', 'Category B', 'Category C', 'Category D'],
+                values: data.pieData,
+                type: 'pie'
+            };
+
+            const layoutPie = {
+                title: 'Pie Chart (Category Distribution)',
+            };
+
+            // Plotting the graphs
+            Plotly.newPlot('graph1', [trace1, trace2], layoutLine);
+            Plotly.newPlot('graph2', [barTrace], layoutBar);
+            Plotly.newPlot('graph3', [pieTrace], layoutPie);
+
+            // Update the textual data (average value of the last dataset)
+            const averageValue = (data.value1.reduce((a, b) => a + b, 0) + data.value2.reduce((a, b) => a + b, 0)) / (data.value1.length + data.value2.length);
+            document.getElementById('average-value').innerText = `The average value of the latest dataset is: ${averageValue.toFixed(2)}`;
+        }
+
+        // Display live location on a map
+        let marker;
+        function updateLocationOnMap() {
+            const map = L.map('map').setView([51.505, -0.09], 13); // Default position (London)
+            
+            // Add OpenStreetMap tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Set initial marker position
+            marker = L.marker([51.505, -0.09]).addTo(map);
+            marker.bindPopup('Live Location').openPopup();
+
+            // Simulate live location (random)
+            setInterval(() => {
+                const lat = 51.505 + (Math.random() * 0.1 - 0.05); // Simulate random latitude variation
+                const lon = -0.09 + (Math.random() * 0.1 - 0.05); // Simulate random longitude variation
+                
+                // Update marker position
+                marker.setLatLng([lat, lon]);
+                map.setView([lat, lon], 13);
+            }, 5000); // Update location every 5 seconds
+        }
+
+        // Switch between active cards
+        function switchCard() {
+            const cards = ['line-chart-card', 'bar-chart-card', 'pie-chart-card', 'map-card', 'textual-data-card'];
+
+            // Hide all cards first
+            cards.forEach(card => {
+                document.getElementById(card).classList.remove('active');
+            });
+
+            // Show the current active card
+            document.getElementById(cards[currentCardIndex]).classList.add('active');
+
+            // Move to the next card for the next iteration
+            currentCardIndex = (currentCardIndex + 1) % cards.length;
+        }
+
+        // Update graphs and location every 5 seconds
+        setInterval(() => {
+            updateGraphs();
+            switchCard();
+        }, 5000); // Refresh graphs and switch card every 5 seconds
+
+        // Initial plot and location
+        updateGraphs();
+        updateLocationOnMap();
+    </script>
+
+</body>
+</html>
