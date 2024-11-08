@@ -47,6 +47,7 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             padding: 20px;
+            padding-bottom: 100px; /* Add bottom padding to prevent overlap */
         }
 
         .card {
@@ -83,8 +84,8 @@
             color: #ecf0f1;
             padding: 20px;
             text-align: center;
-            position: fixed;
             width: 100%;
+            position: relative; /* Change from fixed to relative */
             bottom: 0;
         }
 
@@ -102,114 +103,92 @@
 
     <!-- Navigation Bar -->
     <nav>
-        <a href="#line-chart-card">Line Chart</a>
-        <a href="#bar-chart-card">Bar Chart</a>
-        <a href="#pie-chart-card">Pie Chart</a>
-        <a href="#map-card">Live Map</a>
-        <a href="#textual-data-card">Average Value</a>
+        <a href="#line-chart-card">ECG Graph <a href="ecg.html">More about ECG</a></a>
+        <a href="#activity-chart-card">Activity Levels</a>
+        <a href="#pie-chart-card">Delivery Timings</a>
+        <a href="#map-card">Current Location</a>
+        <a href="#device-status-card">Device Status</a>
     </nav>
 
-    <h1>Live Dashboard </h1>
+    <h1>Live Dashboard</h1>
 
     <div id="dashboard">
-        <!-- Card 1: Line Chart -->
+        <!-- Card 1: ECG Graph -->
         <div id="line-chart-card" class="card active">
-            <h3>Line Chart (Sin and Cos Waves)</h3>
-            <div id="graph1"></div>
+            <h3>ECG Graph (Electrocardiogram)</h3>
+            <div id="ecg-graph"></div>
         </div>
 
-        <!-- Card 2: Bar Chart -->
-        <div id="bar-chart-card" class="card">
-            <h3>Bar Chart</h3>
-            <div id="graph2"></div>
+        <!-- Card 2: Activity Levels (New Content) -->
+        <div id="activity-chart-card" class="card">
+            <h3>Vehicle Activity Levels</h3>
+            <div id="activity-chart"></div>
         </div>
 
-        <!-- Card 3: Pie Chart -->
+        <!-- Card 3: Delivery Timings (Pie Chart) -->
         <div id="pie-chart-card" class="card">
-            <h3>Pie Chart</h3>
-            <div id="graph3"></div>
+            <h3>Delivery Timings Distribution</h3>
+            <div id="pie-chart"></div>
         </div>
 
-        <!-- Card 4: Live Location on Map -->
+        <!-- Card 4: Current Location on Map -->
         <div id="map-card" class="card">
-            <h3>Live Location on Map</h3>
+            <h3>Current Location</h3>
             <div id="map"></div>
         </div>
 
-        <!-- Card 5: Textual Data (Question Answering) -->
-        <div id="textual-data-card" class="card">
-            <h3>Textual Data: Average Value</h3>
-            <p id="average-value">Loading...</p>
+        <!-- Card 5: Device Status (Bar Graph) -->
+        <div id="device-status-card" class="card">
+            <h3>Device Status</h3>
+            <div id="device-status-graph"></div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
-        <p>Developed by <a href="https://www.yourwebsite.com" target="_blank">Your Name</a> | © 2024</p>
+        <p>©️ 2024 TrackGuard. All rights reserved.</p>
     </footer>
 
     <script>
-        let currentCardIndex = 0; // Tracks which card is active
+        let currentCardIndex = 0;
 
-        // Simulate real-time data generation with positive values only
-        function generateData() {
-            const time = new Date();
-            const timeSeries = [];
-            const value1Series = [];
-            const value2Series = [];
-            const value3Series = [];
-            const barData = [];
-            const pieData = [0, 0, 0, 0];
+        // ECG Data (mV)
+        const ecgData = {
+            time: Array.from({length: 100}, (_, i) => new Date(Date.now() + i * 1000)),
+            values: Array.from({length: 100}, (_, i) => (i % 10 === 0 ? Math.abs(Math.sin(i * 0.1)) * 0.5 : 0)),
+        };
 
-            for (let i = 0; i < 100; i++) {
-                timeSeries.push(new Date(time.getTime() + i * 1000));
-                const sinValue = Math.abs(Math.sin(i * 0.1) + Math.random() * 0.2); // Ensure positive values
-                const cosValue = Math.abs(Math.cos(i * 0.1) + Math.random() * 0.2); // Ensure positive values
-                const randomValue = Math.abs(Math.random() * 2); // Ensure positive values
-                
-                value1Series.push(sinValue);
-                value2Series.push(cosValue);
-                value3Series.push(randomValue);
-                
-                // Bar chart data (positive random values)
-                barData.push(Math.abs(Math.random() * 10));
-                
-                // Pie chart data (positive percentage distribution)
-                pieData[i % 4] += Math.random() * 10;  // Distribute the values randomly among 4 categories
-            }
-            return {
-                time: timeSeries,
-                value1: value1Series,
-                value2: value2Series,
-                value3: value3Series,
-                barData: barData,
-                pieData: pieData
-            };
-        }
+        // Vehicle Activity Data (for Activity Levels Chart)
+        const activityData = {
+            categories: ['Idle', 'In Motion', 'Stopped', 'Off Route'],
+            values: [25, 50, 15, 10]  // Percentage of time spent in each state
+        };
 
-        // Update the graphs with new data
+        // Delivery Timings Data (Pie Chart)
+        const deliveryTimingsData = {
+            labels: ['On-time Delivery', 'Delayed Delivery', 'Early Delivery', 'Canceled Delivery'],
+            values: [50, 30, 10, 10],  // Percentages for each category
+        };
+
+        // Device Status Data (for Bar Graph)
+        const deviceStatusData = {
+            status: ['Active', 'Inactive', 'Partially Active'],
+            counts: [45, 30, 25]  // Number of devices in each state
+        };
+
+        // Function to Update Graphs
         function updateGraphs() {
-            const data = generateData();
-
-            // Line Chart: Sin and Cos Waves
-            const trace1 = {
-                x: data.time,
-                y: data.value1,
+            // ECG Graph (Line Chart)
+            const ecgTrace = {
+                x: ecgData.time,
+                y: ecgData.values,
                 mode: 'lines',
-                name: 'Sin Wave',
+                name: 'ECG (mV)',
                 line: {color: 'rgb(255, 99, 132)'}
             };
 
-            const trace2 = {
-                x: data.time,
-                y: data.value2,
-                mode: 'lines',
-                name: 'Cos Wave',
-                line: {color: 'rgb(54, 162, 235)'}
-            };
-
-            const layoutLine = {
-                title: 'Line Chart: Sin & Cos Waves',
+            const layoutECG = {
+                title: 'ECG (Electrocardiogram)',
                 xaxis: {
                     title: 'Time',
                     type: 'date',
@@ -217,108 +196,124 @@
                     zeroline: true
                 },
                 yaxis: {
-                    title: 'Amplitude',
-                    range: [0, Math.max(...data.value1, ...data.value2) + 1],
+                    title: 'ECG (mV)',
+                    range: [0, 1],
                     showgrid: true,
                     zeroline: true
                 },
             };
 
-            // Bar Chart: Random Data
-            const barTrace = {
-                x: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-                y: data.barData,
+            // Activity Levels Graph (Bar Chart)
+            const activityTrace = {
+                x: activityData.categories,
+                y: activityData.values,
                 type: 'bar',
-                marker: {color: 'rgb(75, 192, 192)'}
+                marker: {color: 'rgb(54, 162, 235)'}
             };
 
-            const layoutBar = {
-                title: 'Bar Chart (Random Positive Data)',
+            const layoutActivity = {
+                title: 'Vehicle Activity Levels',
                 xaxis: {
-                    title: 'Categories',
+                    title: 'Activity Type',
                     showgrid: true,
                     zeroline: true
                 },
                 yaxis: {
-                    title: 'Values',
-                    range: [0, Math.max(...data.barData) + 2],
+                    title: 'Percentage (%)',
+                    range: [0, 100],
                     showgrid: true,
                     zeroline: true
                 },
             };
 
-            // Pie Chart: Random Category Distribution
+            // Delivery Timings Distribution (Pie Chart)
             const pieTrace = {
-                labels: ['Category A', 'Category B', 'Category C', 'Category D'],
-                values: data.pieData,
+                labels: deliveryTimingsData.labels,
+                values: deliveryTimingsData.values,
                 type: 'pie'
             };
 
             const layoutPie = {
-                title: 'Pie Chart (Category Distribution)',
+                title: 'Delivery Timings Distribution',
             };
 
-            // Plotting the graphs
-            Plotly.newPlot('graph1', [trace1, trace2], layoutLine);
-            Plotly.newPlot('graph2', [barTrace], layoutBar);
-            Plotly.newPlot('graph3', [pieTrace], layoutPie);
+            // Device Status Bar Graph
+            const deviceStatusTrace = {
+                x: deviceStatusData.status,
+                y: deviceStatusData.counts,
+                type: 'bar',
+                marker: {color: 'rgb(75, 192, 192)'}
+            };
 
-            // Update the textual data (average value of the last dataset)
-            const averageValue = (data.value1.reduce((a, b) => a + b, 0) + data.value2.reduce((a, b) => a + b, 0)) / (data.value1.length + data.value2.length);
-            document.getElementById('average-value').innerText = `The average value of the latest dataset is: ${averageValue.toFixed(2)}`;
+            const layoutDeviceStatus = {
+                title: 'Device Status Distribution',
+                xaxis: {
+                    title: 'Device Status',
+                    showgrid: true,
+                    zeroline: true
+                },
+                yaxis: {
+                    title: 'Number of Devices',
+                    showgrid: true,
+                    zeroline: true
+                },
+            };
+
+            // Plot the ECG Graph
+            Plotly.newPlot('ecg-graph', [ecgTrace], layoutECG);
+
+            // Plot the Activity Levels Graph
+            Plotly.newPlot('activity-chart', [activityTrace], layoutActivity);
+
+            // Plot the Pie Chart
+            Plotly.newPlot('pie-chart', [pieTrace], layoutPie);
+
+            // Plot the Device Status Graph
+            Plotly.newPlot('device-status-graph', [deviceStatusTrace], layoutDeviceStatus);
         }
 
-        // Display live location on a map
-        let marker;
+        // Current Location Map
+        let map, marker;
         function updateLocationOnMap() {
-            const map = L.map('map').setView([51.505, -0.09], 13); // Default position (London)
-            
+            map = L.map('map').setView([20.5937, 78.9629], 5); // Center on India
+
             // Add OpenStreetMap tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
 
-            // Set initial marker position
-            marker = L.marker([51.505, -0.09]).addTo(map);
-            marker.bindPopup('Live Location').openPopup();
+            // Set initial marker position and popup
+            marker = L.marker([28.6139, 77.2090]).addTo(map);
+            marker.bindPopup('The driver is here').openPopup();
 
-            // Simulate live location (random)
+            // Simulate random movement of the marker
             setInterval(() => {
-                const lat = 51.505 + (Math.random() * 0.1 - 0.05); // Simulate random latitude variation
-                const lon = -0.09 + (Math.random() * 0.1 - 0.05); // Simulate random longitude variation
-                
-                // Update marker position
+                const lat = 20.5937 + (Math.random() - 0.5) * 10; // Random latitude
+                const lon = 78.9629 + (Math.random() - 0.5) * 10; // Random longitude
+
                 marker.setLatLng([lat, lon]);
-                map.setView([lat, lon], 13);
-            }, 5000); // Update location every 5 seconds
+                map.setView([lat, lon], 5);
+                marker.getPopup().setContent("The driver is here");
+            }, 5000); // Update every 5 seconds
         }
 
         // Switch between active cards
         function switchCard() {
-            const cards = ['line-chart-card', 'bar-chart-card', 'pie-chart-card', 'map-card', 'textual-data-card'];
-
-            // Hide all cards first
-            cards.forEach(card => {
-                document.getElementById(card).classList.remove('active');
-            });
-
-            // Show the current active card
+            const cards = ['line-chart-card', 'activity-chart-card', 'pie-chart-card', 'map-card', 'device-status-card'];
+            cards.forEach(card => document.getElementById(card).classList.remove('active'));
             document.getElementById(cards[currentCardIndex]).classList.add('active');
-
-            // Move to the next card for the next iteration
             currentCardIndex = (currentCardIndex + 1) % cards.length;
         }
 
-        // Update graphs and location every 5 seconds
+        // Initialize and Update
         setInterval(() => {
             updateGraphs();
             switchCard();
-        }, 5000); // Refresh graphs and switch card every 5 seconds
-
-        // Initial plot and location
-        updateGraphs();
+        }, 5000);
+        
+        // Initial function calls
         updateLocationOnMap();
+        updateGraphs();
     </script>
-
 </body>
 </html>
