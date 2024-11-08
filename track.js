@@ -1,17 +1,21 @@
-// Sample data
-const data = [
-    { Name: 'Alice', Age: 24, City: 'New York' },
-    { Name: 'Bob', Age: 30, City: 'Los Angeles' },
-    { Name: 'Charlie', Age: 22, City: 'Chicago' },
-    { Name: 'David', Age: 35, City: 'Houston' }
+// Delivery personnel data (India-based)
+const deliveryData = [
+    { Name: 'Ravi Kumar', WorkingHours: '40 hrs/week', Location: 'Mumbai', DeliveriesCompleted: 150 },
+    { Name: 'Sita Sharma', WorkingHours: '35 hrs/week', Location: 'Delhi', DeliveriesCompleted: 120 },
+    { Name: 'Rajesh Patel', WorkingHours: '45 hrs/week', Location: 'Ahmedabad', DeliveriesCompleted: 130 },
+    { Name: 'Pooja Reddy', WorkingHours: '30 hrs/week', Location: 'Bengaluru', DeliveriesCompleted: 100 },
+    { Name: 'Amit Gupta', WorkingHours: '50 hrs/week', Location: 'Kolkata', DeliveriesCompleted: 160 },
+    { Name: 'Meena Singh', WorkingHours: '37 hrs/week', Location: 'Hyderabad', DeliveriesCompleted: 115 },
+    { Name: 'Vikram Joshi', WorkingHours: '42 hrs/week', Location: 'Pune', DeliveriesCompleted: 135 },
+    { Name: 'Anita Thakur', WorkingHours: '33 hrs/week', Location: 'Jaipur', DeliveriesCompleted: 110 }
 ];
 
 // Function to generate table rows based on data
 function generateTable() {
     const tableBody = document.getElementById('tableBody');
-    data.forEach(row => {
+    deliveryData.forEach(person => {
         const tr = document.createElement('tr');
-        Object.values(row).forEach(value => {
+        Object.values(person).forEach(value => {
             const td = document.createElement('td');
             td.textContent = value;
             tr.appendChild(td);

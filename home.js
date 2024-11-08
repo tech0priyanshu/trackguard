@@ -1,3 +1,3 @@
 function showAlert() {
-    alert("Hello! Welcome to Trackguard.");
+    alert("No Features are Available");
 }
