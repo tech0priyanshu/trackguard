@@ -1,4 +1,3 @@
-
 // Delivery personnel data (India-based)
 const deliveryData = [
     { Name: 'Ravi Kumar', WorkingHours: '40 hrs/week', Location: 'Mumbai', DeliveriesCompleted: 150 },
@@ -22,10 +21,8 @@ function generateTable() {
             tr.appendChild(td);
         });
         tableBody.appendChild(tr);
+    });
+}
 
-// Sample data for the table
-    
-
-// Initialize the table on page load
-document.addEventListener("DOMContentLoaded", populateTable);
-    })}
+// Initialize table on page load
+window.onload = generateTable;
