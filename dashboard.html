@@ -21,7 +21,7 @@
             color: #333;
             font-size: 36px;
         }
-        /* Navigation Bar */
+      
         nav {
             background-color: #2c3e50;
             padding: 15px 0;
@@ -36,13 +36,13 @@
         nav a:hover {
             color: #3498db;
         }
-        /* Dashboard Container */
+    
         #dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             padding: 20px;
-            padding-bottom: 100px; /* Add bottom padding to prevent overlap */
+            padding-bottom: 100px; 
         }
         .card {
             background-color: #fff;
@@ -67,7 +67,7 @@
             width: 100%;
             border-radius: 8px;
         }
-        /* Footer */
+    
         footer {
             background-color: #2c3e50;
             color: #ecf0f1;
@@ -88,7 +88,7 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
+   
     <nav>
         <a href="#line-chart-card">ECG Graph <a href="ecg.html">More about ECG</a></a>
         <a href="#activity-chart-card">Activity Levels</a>
@@ -100,38 +100,37 @@
     <h1>Live Dashboard</h1>
 
     <div id="dashboard">
-        <!-- Card 1: ECG Graph -->
+    
         <div id="line-chart-card" class="card active">
             <h3>ECG Graph (Electrocardiogram)</h3>
             <div id="ecg-graph"></div>
         </div>
 
-        <!-- Card 2: Activity Levels (New Content) -->
+        
         <div id="activity-chart-card" class="card">
             <h3>Vehicle Activity Levels</h3>
             <div id="activity-chart"></div>
         </div>
 
-        <!-- Card 3: Delivery Timings (Pie Chart) -->
         <div id="pie-chart-card" class="card">
             <h3>Delivery Timings Distribution</h3>
             <div id="pie-chart"></div>
         </div>
 
-        <!-- Card 4: Current Location on Map -->
+        
         <div id="map-card" class="card">
             <h3>Current Location</h3>
             <div id="map"></div>
         </div>
 
-        <!-- Card 5: Device Status (Bar Graph) -->
+     
         <div id="device-status-card" class="card">
             <h3>Device Status</h3>
             <div id="device-status-graph"></div>
         </div>
     </div>
 
-    <!-- Footer -->
+  
     <footer>
         <p>©️ 2024 TrackGuard. All rights reserved.</p>
     </footer>
@@ -141,12 +140,11 @@
             return Array.from({ length: arrayLength }, () => Math.random() * range);
         }
 
-        // Function to Update Graphs with Random Data
         function updateGraphs() {
-            // ECG Graph (Line Chart)
+            
             const ecgTrace = {
                 x: Array.from({ length: 100 }, (_, i) => new Date(Date.now() + i * 1000)),
-                y: getRandomData(100, 1), // Generate random ECG values
+                y: getRandomData(100, 1), 
                 mode: 'lines',
                 name: 'ECG (mV)',
                 line: { color: 'rgb(255, 99, 132)' }
@@ -154,29 +152,29 @@
             const layoutECG = { title: 'ECG (Electrocardiogram)' };
             Plotly.newPlot('ecg-graph', [ecgTrace], layoutECG);
 
-            // Activity Levels (Bar Chart)
+        
             const activityTrace = {
                 x: ['Idle', 'In Motion', 'Stopped', 'Off Route'],
-                y: getRandomData(4, 100), // Random values for activity levels
+                y: getRandomData(4, 100), 
                 type: 'bar',
                 marker: { color: 'rgb(54, 162, 235)' }
             };
             const layoutActivity = { title: 'Vehicle Activity Levels' };
             Plotly.newPlot('activity-chart', [activityTrace], layoutActivity);
 
-            // Delivery Timings Distribution (Pie Chart)
+           
             const pieTrace = {
                 labels: ['On-time Delivery', 'Delayed Delivery', 'Early Delivery', 'Canceled Delivery'],
-                values: getRandomData(4, 100), // Random values for delivery timings
+                values: getRandomData(4, 100), 
                 type: 'pie'
             };
             const layoutPie = { title: 'Delivery Timings Distribution' };
             Plotly.newPlot('pie-chart', [pieTrace], layoutPie);
 
-            // Device Status (Bar Chart)
+       
             const deviceStatusTrace = {
                 x: ['Active', 'Inactive', 'Partially Active'],
-                y: getRandomData(3, 50), // Random values for device statuses
+                y: getRandomData(3, 50), 
                 type: 'bar',
                 marker: { color: 'rgb(75, 192, 192)' }
             };
@@ -184,17 +182,16 @@
             Plotly.newPlot('device-status-graph', [deviceStatusTrace], layoutDeviceStatus);
         }
 
-        // Update graphs every 5 seconds
+      
         setInterval(updateGraphs, 3000);
 
-        // Initial Map Setup with Randomized Updates
         let map = L.map('map').setView([20.5937, 78.9629], 5);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
         let marker = L.marker([28.6139, 77.2090]).addTo(map);
 
-        // Update map marker location randomly every 5 seconds
+       
         setInterval(() => {
             const lat = 20.5937 + (Math.random() - 0.3) * 10;
             const lon = 78.9629 + (Math.random() - 0.3) * 10;
@@ -203,7 +200,7 @@
             marker.bindPopup("The driver is here").openPopup();
         }, 5000);
 
-        // Initial graph update
+       
         updateGraphs();
     </script>
 </body>

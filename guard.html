@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TrackGuard - Alerts and Notifications</title>
   <style>
-    /* Basic Styles */
+  
     body {
       font-family: Arial, sans-serif;
       display: flex;
@@ -22,14 +22,14 @@
       margin-bottom: 20px;
     }
 
-    /* Card Container */
+    
     .container {
       display: flex;
       gap: 20px;
       margin-bottom: 20px;
     }
 
-    /* Popup Card Styles */
+ 
     .popup-card {
       width: 300px;
       padding: 20px;
@@ -53,7 +53,7 @@
       line-height: 1.4;
     }
 
-    /* Button Styles */
+    
     .button {
       padding: 10px 16px;
       background-color: #007bff;
@@ -69,7 +69,7 @@
       background-color: #0056b3;
     }
 
-    /* Alerts Panel Styles */
+   
     .alerts-panel {
       width: 320px;
       padding: 20px;
@@ -130,17 +130,17 @@
   
   <h1>TrackGuard - Alerts & Notifications</h1>
   
-  <!-- Container for Cards -->
+ 
   <div class="container">
     
-    <!-- Alert Card -->
+   
     <div class="popup-card">
       <h2>Alerts</h2>
       <p><strong>Security Alert:</strong> We’ve detected an unusual login attempt from an unknown device. Please verify your recent activities to secure your account.</p>
       <button class="button" onclick="showAlertsPanel()">View More</button>
     </div>
     
-    <!-- Notification Card -->
+ 
     <div class="popup-card">
       <h2>Notifications</h2>
       <p><strong>New Features:</strong> TrackGuard has been updated! Discover new enhancements and improved functionalities to optimize your security management.</p>
@@ -149,11 +149,11 @@
     
   </div>
 
-  <!-- Alerts Panel -->
+
   <div class="alerts-panel" id="alertsPanel" style="display: none;">
     <h2>All Alerts</h2>
     
-    <!-- Sample Alert Items -->
+   
     <div class="alert-item">
       <strong>Security Alert:</strong>
       <p>We detected a login attempt from a new device in New York, USA. If this wasn't you, please change your password immediately.</p>
@@ -171,17 +171,17 @@
       <p>Your scheduled data backup was unsuccessful. Try again or contact support for help.</p>
     </div>
 
-    <!-- Mark All as Viewed Button -->
+    
     <div class="mark-viewed">
       <button onclick="markAllAsViewed()">Mark All as Viewed</button>
     </div>
   </div>
 
-  <!-- Notification Panel -->
+
   <div class="notification-panel" id="notificationPanel" style="display: none;">
     <h2>All Notifications</h2>
     
-    <!-- Sample Notification Items -->
+    
     <div class="notification-item">
       <strong>Security Alert:</strong>
       <p>Unusual login attempt detected from a new device. Verify if this was you.</p>
@@ -199,7 +199,7 @@
       <p>Your recent backup was successful. You can access it in your account settings.</p>
     </div>
 
-    <!-- Mark All as Read Button -->
+   
     <div class="mark-read">
       <button onclick="markAllAsRead()">Mark All as Read</button>
     </div>

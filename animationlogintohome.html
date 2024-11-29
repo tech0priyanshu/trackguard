@@ -16,7 +16,7 @@
     .wrapper {
       position: relative;
       width: 100%;
-      height: 300vh; /* Set a height to allow scrolling */
+      height: 300vh; 
       z-index: 1;
     }
 
@@ -74,11 +74,11 @@
       .timeline({
         scrollTrigger: {
           trigger: ".wrapper",
-          start: "top top", // start at the top of the viewport
-          end: "bottom top", // end when the bottom of the wrapper reaches the top of the viewport
-          pin: true, // pin the wrapper during the scroll
-          scrub: true, // smooth scrolling effect
-          markers: false, // Remove markers
+          start: "top top", 
+          end: "bottom top", 
+          pin: true, 
+          scrub: true,
+          markers: false, 
         }
       })
       .to("img", {

@@ -11,7 +11,7 @@ body {
     color: #333;
 }
 
-/* Navigation Bar */
+
 .navbar {
     background-color: #4a90e2;
     padding: 1rem;
@@ -77,7 +77,6 @@ body {
     text-decoration: underline;
 }
 
-/* Main Content */
 .main-content {
    
     text-align: center;
@@ -111,7 +110,7 @@ body {
     background-color: #357ab8;
 }
 
-/* Footer */
+
 .footer {
     position: absolute;
     bottom: 0;
