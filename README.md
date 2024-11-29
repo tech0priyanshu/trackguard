@@ -1,11 +1,7 @@
 # trackguard
 #TrackGuard
 #Team Members:
-#1: Team Member 1 - Priyanshu Yadav-Lead Developer: Responsible for designing the system embedding hardware and backend integration Vultr Cloud 
-#2: Team Member 2 - Som Kunar -Cloud and Backend Developer: Focuses on Vultr Cloud services, API Integration 
-#3: Team Member 3 -Saahi Dubey - Frontend Developer: web app with Google Maps integration and creating the user interface 
-#4:Team Member 4 -Praveen Kumar-Data Analyst: Ensuring proper data handling, Real-time monitoring 
-#Abstract: 
+# Team Member 1 - Priyanshu Yadav-Lead Developer: Responsible for designing the system embedding hardware and backend integration Vultr Cloud #Abstract: 
 #TrackGuard addresses the safety and emergency of gig workers (delivery personnel). The device worn around the neck integrates GPS navigation, and emergency responses, and improves the overall experience for riders by getting all instructions in audio mode. TrackGuard connects to Vultr stores and analyzes the data for further training, rerouting the route of the people and improving work-life balance. It will enhance the safety and security of delivery workers, such as advanced tracking systems, emergency response tools, or wearable devices that monitor health and safety conditions. It will help in optimizing delivery routes, reduce delivery times, and improve the overall efficiency of the delivery process. This could include AI-driven logistics solutions, real-time traffic analysis,  
 #Problem Statement:
 #Theme- Health and Well-Being
